@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arnaud Keutchankeu Njamta — Développeur Full Stack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#080a0f;--surface:#0e1117;--surface2:#131720;--border:rgba(255,255,255,0.06);--gold:#c8a96e;--gold-l:#e4c98a;--gold-dim:rgba(200,169,110,0.1);--text:#e8eaf0;--muted:#7a8099;--dim:#3d4257;--green:#34d399;--blue:#60a5fa;--red:#f87171;--purple:#a78bfa;--orange:#fb923c;--pink:#f472b6;--yellow:#fbbf24}
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.5}
+    .cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s}
+    .cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(200,169,110,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:rgba(8,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--gold);letter-spacing:.05em}
+    .nav-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-links a{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{display:flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--green);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);padding:.4rem .9rem;border-radius:3px}
+    .nav-cta::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 5rem;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at 15% 50%,black,transparent 65%)}
+    .hero-glow{position:absolute;top:-300px;left:-300px;width:900px;height:900px;background:radial-gradient(circle,rgba(200,169,110,.07) 0%,transparent 60%);animation:drift 9s ease-in-out infinite alternate}
+    @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,30px) scale(1.08)}}
+    .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--gold);letter-spacing:.28em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .2s ease forwards}
+    .hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,8.5vw,7.5rem);font-weight:300;line-height:.92;color:var(--text);letter-spacing:-.02em;opacity:0;animation:fadeUp .9s .4s ease forwards}
+    .hero-name em{font-style:italic;color:var(--gold)}
+    .hero-role{font-size:clamp(.88rem,1.6vw,1.05rem);font-weight:300;color:var(--muted);margin-top:1.4rem;letter-spacing:.04em;opacity:0;animation:fadeUp .9s .55s ease forwards}
+    .hero-seeking{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.2rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--green);background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);padding:.5rem 1rem;border-radius:3px;opacity:0;animation:fadeUp .9s .7s ease forwards}
+    .hero-desc{max-width:500px;margin-top:2rem;font-size:.93rem;line-height:1.85;color:var(--muted);opacity:0;animation:fadeUp .9s .85s ease forwards}
+    .hero-cta{display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp .9s 1s ease forwards}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.7rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:all .25s}
+    .btn-primary{background:var(--gold);color:#080a0f;font-weight:500}
+    .btn-primary:hover{background:var(--gold-l);transform:translateY(-2px);box-shadow:0 12px 30px rgba(200,169,110,.25)}
+    .btn-secondary{border:1px solid var(--border);color:var(--muted);background:transparent}
+    .btn-secondary:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+    .hero-stats{position:absolute;right:3rem;bottom:4rem;display:flex;gap:2.5rem;opacity:0;animation:fadeUp .9s 1.2s ease forwards}
+    .stat-n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:var(--gold);line-height:1}
+    .stat-l{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-top:.3rem}
+    .scroll-hint{position:absolute;left:3rem;bottom:3rem;display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;opacity:0;animation:fadeUp .9s 1.4s ease forwards}
+    .scroll-line{width:40px;height:1px;background:var(--dim)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    section{padding:7rem 3rem}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 3rem}
+    .section-header{display:flex;align-items:flex-end;gap:1.5rem;margin-bottom:4rem}
+    .section-num{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;color:var(--dim);line-height:1}
+    .section-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;color:var(--text);line-height:1}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    /* ABOUT */
+    #about{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:start}
+    .about-text p{font-size:.93rem;line-height:1.9;color:var(--muted);margin-bottom:1.3rem}
+    .about-text strong{color:var(--text);font-weight:500}
+    .info-list{display:flex;flex-direction:column;gap:.65rem;margin-top:2rem}
+    .info-row{display:flex;align-items:center;gap:.8rem;font-family:'JetBrains Mono',monospace;font-size:.66rem}
+    .info-icon{color:var(--gold);opacity:.7;width:14px;flex-shrink:0}
+    .info-label{color:var(--dim);min-width:80px}
+    .info-val{color:var(--muted)}
+    .info-val a{color:var(--muted);text-decoration:none}
+    .info-val a:hover{color:var(--gold)}
+    .skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+    .skill-item{background:var(--bg);padding:1rem 1.3rem;position:relative;overflow:hidden;transition:background .2s}
+    .skill-item:hover{background:var(--surface2)}
+    .skill-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transition:transform .2s}
+    .skill-item:hover::before{transform:scaleY(1)}
+    .sk-name{font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--text);font-weight:400}
+    .sk-type{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--dim);margin-top:.2rem}
+    .sk-dot{position:absolute;right:1rem;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%}
+    /* EXPERIENCE */
+    #experience{background:var(--bg)}
+    .exp-list{display:flex;flex-direction:column;border:1px solid var(--border)}
+    .exp-item{padding:2rem 2.5rem;border-bottom:1px solid var(--border);position:relative;transition:background .2s}
+    .exp-item:last-child{border-bottom:none}
+    .exp-item:hover{background:var(--surface)}
+    .exp-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),transparent);opacity:0;transition:opacity .25s}
+    .exp-item:hover::before{opacity:1}
+    .exp-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem;flex-wrap:wrap;gap:.5rem}
+    .exp-role{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--text)}
+    .exp-badge{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:.22rem .65rem;border-radius:2px;letter-spacing:.08em;text-transform:uppercase}
+    .badge-stage{background:rgba(200,169,110,.12);color:var(--gold);border:1px solid rgba(200,169,110,.2)}
+    .badge-job{background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+    .exp-company{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--gold);margin-bottom:.25rem}
+    .exp-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim)}
+    .exp-desc{margin-top:.9rem;list-style:none}
+    .exp-desc li{font-size:.86rem;color:var(--muted);line-height:1.7;padding-left:1rem;position:relative;margin-bottom:.3rem}
+    .exp-desc li::before{content:'▸';position:absolute;left:0;color:var(--gold);font-size:.6rem;top:.22em}
+    /* PROJECTS */
+    #projects{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .projects-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
+    .project-card{background:var(--surface);display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:1.8rem;padding:1.7rem 2.5rem;text-decoration:none;position:relative;overflow:hidden;transition:background .25s;cursor:none}
+    .project-card::before{content:'';position:absolute;inset:0;background:var(--gold-dim);opacity:0;transition:opacity .25s}
+    .project-card:hover{background:var(--surface2)}
+    .project-card:hover::before{opacity:1}
+    .project-idx{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--dim);line-height:1}
+    .project-body{position:relative;z-index:1}
+    .project-name{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--text);margin-bottom:.3rem;transition:color .2s}
+    .project-card:hover .project-name{color:var(--gold)}
+    .project-desc{font-size:.8rem;color:var(--muted);line-height:1.55;max-width:520px}
+    .project-tags{display:flex;gap:.4rem;margin-top:.65rem;flex-wrap:wrap}
+    .tag{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:.16rem .6rem;border-radius:2px;letter-spacing:.04em;text-transform:uppercase}
+    .tag-ts{background:rgba(49,120,198,.15);color:#60a5fa;border:1px solid rgba(49,120,198,.2)}
+    .tag-js{background:rgba(234,179,8,.1);color:#fbbf24;border:1px solid rgba(234,179,8,.2)}
+    .tag-java{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+    .tag-twig{background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+    .tag-sf{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+    .tag-api{background:rgba(249,115,22,.1);color:#fb923c;border:1px solid rgba(249,115,22,.2)}
+    .tag-game{background:rgba(236,72,153,.1);color:#f472b6;border:1px solid rgba(236,72,153,.2)}
+    .tag-node{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+    .tag-docker{background:rgba(56,189,248,.1);color:#38bdf8;border:1px solid rgba(56,189,248,.2)}
+    .tag-ia{background:rgba(168,85,247,.1);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
+    .project-meta{display:flex;flex-direction:column;align-items:flex-end;gap:.6rem;position:relative;z-index:1}
+    .project-date{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.08em}
+    .project-arrow{width:30px;height:30px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:.85rem;transition:all .25s}
+    .project-card:hover .project-arrow{border-color:var(--gold);color:var(--gold);transform:rotate(45deg)}
+    /* CERTIFICATIONS */
+    #certifications{background:var(--bg)}
+    .certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+    .cert-card{background:var(--bg);padding:2rem;position:relative;overflow:hidden;transition:background .2s}
+    .cert-card:hover{background:var(--surface)}
+    .cert-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-dim),transparent);opacity:0;transition:opacity .3s}
+    .cert-card:hover::after{opacity:1}
+    .cert-icon{font-size:1.4rem;margin-bottom:1rem}
+    .cert-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--text);margin-bottom:.4rem;position:relative;z-index:1}
+    .cert-org{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--gold);margin-bottom:.5rem;position:relative;z-index:1}
+    .cert-date{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dim);position:relative;z-index:1}
+    .cert-id{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--dim);margin-top:.45rem;position:relative;z-index:1;word-break:break-all}
+    /* EDUCATION */
+    #education{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .edu-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:start}
+    .edu-list{display:flex;flex-direction:column;border:1px solid var(--border)}
+    .edu-item{padding:1.7rem 2rem;border-bottom:1px solid var(--border);transition:background .2s;position:relative}
+    .edu-item:last-child{border-bottom:none}
+    .edu-item:hover{background:var(--surface2)}
+    .edu-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transition:transform .25s;transform-origin:top}
+    .edu-item:hover::before{transform:scaleY(1)}
+    .edu-degree{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:.3rem}
+    .edu-school{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--gold);margin-bottom:.22rem}
+    .edu-period{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dim)}
+    .edu-status{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.52rem;padding:.14rem .5rem;border-radius:2px;margin-left:.5rem;text-transform:uppercase;letter-spacing:.06em}
+    .status-ongoing{background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+    .status-done{background:rgba(200,169,110,.1);color:var(--gold);border:1px solid rgba(200,169,110,.15)}
+    .grades-panel{background:var(--bg);border:1px solid var(--border);padding:1.5rem}
+    .grades-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.1rem}
+    .grade-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--border)}
+    .grade-row:last-child{border-bottom:none}
+    .grade-subject{font-size:.76rem;color:var(--muted);max-width:200px;line-height:1.3}
+    .grade-score{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:500;padding:.18rem .55rem;border-radius:2px}
+    .g-high{color:#34d399;background:rgba(52,211,153,.1)}
+    .g-mid{color:#fbbf24;background:rgba(234,179,8,.1)}
+    .g-ok{color:#60a5fa;background:rgba(96,165,250,.1)}
+    /* STACK */
+    #stack{background:var(--bg)}
+    .lang-bars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.4rem;margin-bottom:3rem}
+    .lb-header{display:flex;justify-content:space-between;margin-bottom:.55rem}
+    .lb-name{font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--text)}
+    .lb-pct{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted)}
+    .lb-bg{height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+    .lb-fill{height:100%;border-radius:2px;animation:barGrow 1.4s ease-out forwards;transform-origin:left;transform:scaleX(0)}
+    @keyframes barGrow{to{transform:scaleX(1)}}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:3rem}
+    .tool-item{background:var(--bg);padding:1rem 1.2rem;display:flex;align-items:center;gap:.65rem;font-family:'JetBrains Mono',monospace;font-size:.67rem;color:var(--muted);transition:all .2s}
+    .tool-item:hover{background:var(--surface);color:var(--text)}
+    .tool-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.4rem 0;margin-top:3rem;position:relative}
+    .marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2}
+    .marquee-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+    .marquee-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+    .marquee-track{display:flex;gap:3rem;animation:marquee 22s linear infinite;width:max-content}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .mi{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:1rem;white-space:nowrap}
+    .mi span{color:var(--gold);font-size:.45rem}
+    /* CONTACT */
+    #contact{background:var(--surface);border-top:1px solid var(--border)}
+    .contact-inner{max-width:680px}
+    .contact-email{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.2vw,2.6rem);font-weight:300;color:var(--text);text-decoration:none;display:block;margin:2rem 0;border-bottom:1px solid var(--border);padding-bottom:2rem;transition:color .2s;word-break:break-all}
+    .contact-email:hover{color:var(--gold)}
+    .contact-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem}
+    .contact-link{display:flex;align-items:center;gap:.55rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;padding:.65rem 1.2rem;border:1px solid var(--border);border-radius:3px;transition:all .2s}
+    .contact-link:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+    footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--dim)}
+    .footer-copy{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--dim);letter-spacing:.08em}
+    @media(max-width:900px){nav{padding:1rem 1.5rem}.nav-links{display:none}section{padding:5rem 1.5rem}.about-grid,.edu-grid{grid-template-columns:1fr;gap:3rem}.hero-stats{position:relative;right:auto;bottom:auto;margin-top:3rem}#hero{padding:8rem 1.5rem 4rem}.project-card{grid-template-columns:44px 1fr}.project-meta{display:none}}
+  </style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AKN.</div>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#certifications">Certifs</a></li>
+    <li><a href="#education">Formation</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta">Stage dispo — Avril 2026</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">— Développeur Full Stack · Île-de-France, Paris</div>
+  <h1 class="hero-name">Arnaud<br><em>Keutchankeu</em><br>Njamta</h1>
+  <p class="hero-role">Étudiant Bachelor 3 Développement d'Applications · ECE Paris</p>
+  <div class="hero-seeking">
+    <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    Recherche Stage React / Fullstack — 4 à 6 mois · Avril 2026
+  </div>
+  <p class="hero-desc">Passionné de développement web fullstack, je construis des applications modernes avec une attention particulière à la qualité du code. Expérience en React, API REST, Symfony et Java, avec une vraie appétence pour l'IA et les nouvelles technologies.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>Voir mes projets</a>
+    <a href="https://github.com/broalone80-dev" target="_blank" class="btn btn-secondary"><svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+    <a href="tel:+33774870262" class="btn btn-secondary"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+33 7 74 87 02 62</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-n">9</div><div class="stat-l">Repos</div></div>
+    <div><div class="stat-n">3</div><div class="stat-l">Expériences</div></div>
+    <div><div class="stat-n">2</div><div class="stat-l">Certifs</div></div>
+    <div><div class="stat-n">∞</div><div class="stat-l">Passion</div></div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>Scroller pour explorer</div>
+</section>
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal"><div class="section-num">01</div><div><div class="section-tag">// Profil</div><div class="section-title">À propos</div></div></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Je m'appelle <strong>Arnaud Keutchankeu Njamta</strong>, étudiant en <strong>Bachelor 3 Développement d'Applications</strong> à l'ECE Paris. L'informatique n'est pas juste une filière — c'est ma raison de vivre, ma passion au quotidien.</p>
+      <p>Avec une expérience professionnelle au <strong>Cameroun et en France</strong>, j'ai développé des interfaces React, conçu des API REST et maintenu des applications web en production dans des environnements réels (Canal 2 International, Programmeur Sylem's Design).</p>
+      <p>Particulièrement intéressé par l'<strong>amélioration continue</strong>, le refactoring de code et la structuration de Design Systems. Curieux, autonome et rigoureux, je cherche à intégrer une équipe pour un <strong>stage de 4 à 6 mois à partir d'avril 2026</strong>.</p>
+      <div class="info-list">
+        <div class="info-row"><svg class="info-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="info-label">Localisation</span><span class="info-val">Île-de-France, Paris</span></div>
+        <div class="info-row"><svg class="info-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="info-label">Téléphone</span><span class="info-val"><a href="tel:+33774870262">+33 7 74 87 02 62</a></span></div>
+        <div class="info-row"><svg class="info-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="info-label">Email</span><span class="info-val"><a href="mailto:keutchankeunjamtaarnaud@gmail.com">keutchankeunjamtaarnaud@gmail.com</a></span></div>
+        <div class="info-row"><svg class="info-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="info-label">Disponibilité</span><span class="info-val" style="color:var(--green)">4 à 6 mois · Avril 2026</span></div>
+        <div class="info-row"><svg class="info-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg><span class="info-label">Langues</span><span class="info-val">Français (natif) · Anglais (intermédiaire)</span></div>
+        <div class="info-row"><svg class="info-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="info-label">Soft skills</span><span class="info-val">Autonomie · Esprit d'équipe · Rigueur · Curiosité</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="skills-grid">
+        <div class="skill-item"><div class="sk-name">React</div><div class="sk-type">Front-end</div><div class="sk-dot" style="background:#22d3ee"></div></div>
+        <div class="skill-item"><div class="sk-name">TypeScript</div><div class="sk-type">Front / Back</div><div class="sk-dot" style="background:#60a5fa"></div></div>
+        <div class="skill-item"><div class="sk-name">JavaScript</div><div class="sk-type">Web · Node.js</div><div class="sk-dot" style="background:#fbbf24"></div></div>
+        <div class="skill-item"><div class="sk-name">Java</div><div class="sk-type">POO · Backend</div><div class="sk-dot" style="background:#f87171"></div></div>
+        <div class="skill-item"><div class="sk-name">PHP / Symfony</div><div class="sk-type">Framework MVC</div><div class="sk-dot" style="background:#34d399"></div></div>
+        <div class="skill-item"><div class="sk-name">Node.js</div><div class="sk-type">Runtime · API</div><div class="sk-dot" style="background:#4ade80"></div></div>
+        <div class="skill-item"><div class="sk-name">Python</div><div class="sk-type">Scripting · IA</div><div class="sk-dot" style="background:#facc15"></div></div>
+        <div class="skill-item"><div class="sk-name">MySQL / SQL</div><div class="sk-type">Base de données</div><div class="sk-dot" style="background:#a78bfa"></div></div>
+        <div class="skill-item"><div class="sk-name">REST API</div><div class="sk-type">Architecture</div><div class="sk-dot" style="background:#fb923c"></div></div>
+        <div class="skill-item"><div class="sk-name">Docker</div><div class="sk-type">Conteneurisation</div><div class="sk-dot" style="background:#38bdf8"></div></div>
+        <div class="skill-item"><div class="sk-name">Linux</div><div class="sk-type">OS · Réseau</div><div class="sk-dot" style="background:#d1d5db"></div></div>
+        <div class="skill-item"><div class="sk-name">Git / GitHub</div><div class="sk-type">Versioning</div><div class="sk-dot" style="background:#c8a96e"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal"><div class="section-num">02</div><div><div class="section-tag">// Parcours</div><div class="section-title">Expériences</div></div></div>
+  <div class="exp-list reveal">
+    <div class="exp-item">
+      <div class="exp-top"><div><div class="exp-role">Développeur Web / Informaticien</div><div class="exp-company">Programmeur Sylem's Design — Yaoundé</div><div class="exp-date">Jan 2025 — Jul 2025</div></div><span class="exp-badge badge-stage">Stage</span></div>
+      <ul class="exp-desc">
+        <li>Développement et amélioration de pages web dynamiques en environnement PHP</li>
+        <li>Optimisation des requêtes SQL et amélioration des performances backend</li>
+        <li>Participation à la conception d'interfaces utilisateurs</li>
+        <li>Amélioration de l'expérience utilisateur et de la structure UI</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-top"><div><div class="exp-role">Développeur Web</div><div class="exp-company">Canal 2 International — Cameroun</div><div class="exp-date">Août 2023 — Fév 2024</div></div><span class="exp-badge badge-job">Emploi</span></div>
+      <ul class="exp-desc">
+        <li>Conception et développement d'interfaces administrateur (écrans, formulaires dynamiques)</li>
+        <li>Développement back-end en PHP / Symfony avec architecture MVC</li>
+        <li>Mise en place d'API REST pour la gestion des utilisateurs et des contenus</li>
+        <li>Implémentation d'un système de gestion des rôles (administrateur, éditeur, journaliste)</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-top"><div><div class="exp-role">Technicien De Maintenance Informatique</div><div class="exp-company">Express Union — Yaoundé</div><div class="exp-date">Juil 2022 — Jan 2023</div></div><span class="exp-badge badge-stage">Stage</span></div>
+      <ul class="exp-desc">
+        <li>Maintenance préventive et corrective des systèmes informatiques</li>
+        <li>Diagnostic et résolution de pannes matérielles et logicielles</li>
+        <li>Configuration d'équipements réseau sous environnement Linux</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal"><div class="section-num">03</div><div><div class="section-tag">// Réalisations</div><div class="section-title">Projets GitHub</div></div></div>
+  <div class="projects-list reveal">
+    <a href="https://github.com/broalone80-dev/Page_Web_Patisserie" target="_blank" class="project-card">
+      <div class="project-idx">01</div>
+      <div class="project-body"><div class="project-name">Page Web Pâtisserie</div><div class="project-desc">Site vitrine pour une pâtisserie. Interface moderne et élégante développée avec TypeScript. Mise en valeur des produits et services.</div><div class="project-tags"><span class="tag tag-ts">TypeScript</span><span class="tag tag-js">Web</span></div></div>
+      <div class="project-meta"><div class="project-date">Mar 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/Registre_Virtuel" target="_blank" class="project-card">
+      <div class="project-idx">02</div>
+      <div class="project-body"><div class="project-name">Registre Virtuel Intelligent</div><div class="project-desc">Projet de soutenance — Application de gestion de maintenance assistée par IA. Gestion des rôles utilisateurs, suivi des opérations, API backend Node.js et base de données SQL.</div><div class="project-tags"><span class="tag tag-node">Node.js</span><span class="tag tag-api">REST API</span><span class="tag tag-ia">IA</span></div></div>
+      <div class="project-meta"><div class="project-date">Mar 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/Gestion_Hotel" target="_blank" class="project-card">
+      <div class="project-idx">03</div>
+      <div class="project-body"><div class="project-name">Application Java — Gestion Hôtelière</div><div class="project-desc">Gestion des clients, chambres, réservations et paiements. Implémentation de la logique métier (disponibilité, annulation, suivi) avec les principes POO.</div><div class="project-tags"><span class="tag tag-java">Java</span><span class="tag tag-java">POO</span></div></div>
+      <div class="project-meta"><div class="project-date">Fév 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/pomodoro" target="_blank" class="project-card">
+      <div class="project-idx">04</div>
+      <div class="project-body"><div class="project-name">Pomodoro Timer</div><div class="project-desc">Application de gestion du temps basée sur la technique Pomodoro. Interface intuitive pour optimiser la productivité et organiser les sessions de travail.</div><div class="project-tags"><span class="tag tag-ts">TypeScript</span><span class="tag tag-js">Productivité</span></div></div>
+      <div class="project-meta"><div class="project-date">Fév 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/Snake-Game" target="_blank" class="project-card">
+      <div class="project-idx">05</div>
+      <div class="project-body"><div class="project-name">Snake Game</div><div class="project-desc">Jeu Snake classique en JavaScript pur. Maîtrise des algorithmes de déplacement, gestion des collisions et rendu canvas dans le navigateur.</div><div class="project-tags"><span class="tag tag-js">JavaScript</span><span class="tag tag-game">Canvas</span><span class="tag tag-game">Game Dev</span></div></div>
+      <div class="project-meta"><div class="project-date">Fév 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/check-list-project" target="_blank" class="project-card">
+      <div class="project-idx">06</div>
+      <div class="project-body"><div class="project-name">Check-List Project</div><div class="project-desc">Gestionnaire de check-lists interactif. Création, organisation et suivi de tâches pour un suivi efficace de projets et objectifs.</div><div class="project-tags"><span class="tag tag-js">JavaScript</span><span class="tag tag-api">CRUD</span></div></div>
+      <div class="project-meta"><div class="project-date">Jan 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/Symfony" target="_blank" class="project-card">
+      <div class="project-idx">07</div>
+      <div class="project-body"><div class="project-name">Projet Symfony — Développement Web</div><div class="project-desc">Application web dynamique en architecture MVC. Intégration Twig (layouts, extends, blocks), contrôleurs, routes et conception d'interface administrateur. Conteneurisé avec Docker.</div><div class="project-tags"><span class="tag tag-twig">Twig</span><span class="tag tag-sf">Symfony</span><span class="tag tag-sf">PHP</span><span class="tag tag-docker">Docker</span></div></div>
+      <div class="project-meta"><div class="project-date">Jan 2026</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/APIprojetB3" target="_blank" class="project-card">
+      <div class="project-idx">08</div>
+      <div class="project-body"><div class="project-name">API REST Node.js — Projet B3</div><div class="project-desc">API REST pour la gestion de maintenance. Authentification par tokens, gestion des rôles, routes structurées et gestion asynchrone (async/await). Environnement XAMPP.</div><div class="project-tags"><span class="tag tag-js">JavaScript</span><span class="tag tag-api">REST API</span><span class="tag tag-node">Node.js</span></div></div>
+      <div class="project-meta"><div class="project-date">Déc 2025</div><div class="project-arrow">↗</div></div>
+    </a>
+    <a href="https://github.com/broalone80-dev/APIprojet" target="_blank" class="project-card">
+      <div class="project-idx">09</div>
+      <div class="project-body"><div class="project-name">API Projet</div><div class="project-desc">Initiation à la conception d'API. Exploration des concepts fondamentaux de communication client-serveur et structuration des données.</div><div class="project-tags"><span class="tag tag-api">REST API</span><span class="tag tag-js">Backend</span></div></div>
+      <div class="project-meta"><div class="project-date">Déc 2025</div><div class="project-arrow">↗</div></div>
+    </a>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-header reveal"><div class="section-num">04</div><div><div class="section-tag">// Certifications</div><div class="section-title">Diplômes & Certifs</div></div></div>
+  <div class="certs-grid reveal">
+    <div class="cert-card">
+      <div class="cert-icon">🏆</div>
+      <div class="cert-name">No Code — Techaway Niveau 2</div>
+      <div class="cert-org">DataScientest · Examen Final · Note 18/20</div>
+      <div class="cert-date">Délivré le 10 Novembre 2025 · Paris</div>
+      <div class="cert-id">N° e9b5d388-e55f-4eb2-a9b2-9da932b30c65</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🤖</div>
+      <div class="cert-name">IA et GenAI — Prompt Engineering</div>
+      <div class="cert-org">DataScientest · Niveau 1</div>
+      <div class="cert-date">2025 · Paris · DataScientest Learn</div>
+      <div class="cert-id">Formation accréditée N° 11755665975</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🐧</div>
+      <div class="cert-name">Linux — 17 / 20</div>
+      <div class="cert-org">ECE Paris · Module Design S5</div>
+      <div class="cert-date">2025-2026 · Contrôle continu — Coeff. 3</div>
+      <div class="cert-id">Mention très bien</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">⚡</div>
+      <div class="cert-name">Méthodes Agiles — 16.5 / 20</div>
+      <div class="cert-org">ECE Paris · Module Manage S5</div>
+      <div class="cert-date">2025-2026 · Contrôle continu — Coeff. 3</div>
+      <div class="cert-id">Mention très bien</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal"><div class="section-num">05</div><div><div class="section-tag">// Formation</div><div class="section-title">Parcours académique</div></div></div>
+  <div class="edu-grid">
+    <div class="reveal">
+      <div class="edu-list">
+        <div class="edu-item"><div class="edu-degree">Bachelor 3 — Développement d'Applications <span class="edu-status status-ongoing">En cours</span></div><div class="edu-school">ECE Paris</div><div class="edu-period">Oct 2025 → En cours · Paris, France</div></div>
+        <div class="edu-item"><div class="edu-degree">Licence Professionnelle — Génie Logiciel <span class="edu-status status-done">Obtenu</span></div><div class="edu-school">ISU Matamfen</div><div class="edu-period">Oct 2024 → Juin 2025</div></div>
+        <div class="edu-item"><div class="edu-degree">BTS — Maintenance Systèmes Informatiques <span class="edu-status status-done">Obtenu</span></div><div class="edu-school">ISU MATAMFEN — Yaoundé</div><div class="edu-period">Août 2022 → Juil 2022</div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="grades-panel">
+        <div class="grades-title">// Notes ECE Paris · S5 CDA</div>
+        <div class="grade-row"><span class="grade-subject">TECHAWAY No Code Niv.2</span><span class="grade-score g-high">18 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Linux</span><span class="grade-score g-high">17 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Méthodes Agiles</span><span class="grade-score g-high">16.5 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Ethic & IA</span><span class="grade-score g-high">16 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Référencement SEO</span><span class="grade-score g-mid">15.3 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Symfony</span><span class="grade-score g-mid">15 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Analyse Conception Apps</span><span class="grade-score g-ok">13 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Architecture UML</span><span class="grade-score g-ok">13.25 / 20</span></div>
+        <div class="grade-row"><span class="grade-subject">Java Avancé</span><span class="grade-score g-ok">12.5 / 20</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-header reveal"><div class="section-num">06</div><div><div class="section-tag">// Technologies</div><div class="section-title">Stack technique</div></div></div>
+  <div class="lang-bars reveal">
+    <div><div class="lb-header"><span class="lb-name">HTML / CSS</span><span class="lb-pct">90%</span></div><div class="lb-bg"><div class="lb-fill" style="width:90%;background:linear-gradient(90deg,#be185d,#f472b6)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">TypeScript</span><span class="lb-pct">82%</span></div><div class="lb-bg"><div class="lb-fill" style="width:82%;background:linear-gradient(90deg,#1d4ed8,#60a5fa)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">JavaScript / React</span><span class="lb-pct">80%</span></div><div class="lb-bg"><div class="lb-fill" style="width:80%;background:linear-gradient(90deg,#b45309,#fbbf24)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">PHP / Symfony</span><span class="lb-pct">75%</span></div><div class="lb-bg"><div class="lb-fill" style="width:75%;background:linear-gradient(90deg,#065f46,#34d399)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">Java (POO)</span><span class="lb-pct">72%</span></div><div class="lb-bg"><div class="lb-fill" style="width:72%;background:linear-gradient(90deg,#991b1b,#f87171)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">Node.js / REST API</span><span class="lb-pct">70%</span></div><div class="lb-bg"><div class="lb-fill" style="width:70%;background:linear-gradient(90deg,#15803d,#4ade80)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">SQL / MySQL</span><span class="lb-pct">65%</span></div><div class="lb-bg"><div class="lb-fill" style="width:65%;background:linear-gradient(90deg,#6d28d9,#a78bfa)"></div></div></div>
+    <div><div class="lb-header"><span class="lb-name">Python</span><span class="lb-pct">50%</span></div><div class="lb-bg"><div class="lb-fill" style="width:50%;background:linear-gradient(90deg,#a16207,#facc15)"></div></div></div>
+  </div>
+  <div class="tools-grid reveal">
+    <div class="tool-item"><div class="tool-dot" style="background:#38bdf8"></div>Docker</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#f97316"></div>XAMPP</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#c8a96e"></div>GitHub</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#d1d5db"></div>Linux</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#4ade80"></div>VS Code</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#60a5fa"></div>Postman</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#a78bfa"></div>MySQL WB</div>
+    <div class="tool-item"><div class="tool-dot" style="background:#f472b6"></div>Figma</div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="mi">React <span>◆</span></span><span class="mi">TypeScript <span>◆</span></span><span class="mi">JavaScript <span>◆</span></span><span class="mi">Java <span>◆</span></span><span class="mi">Symfony <span>◆</span></span><span class="mi">PHP <span>◆</span></span><span class="mi">Node.js <span>◆</span></span><span class="mi">Python <span>◆</span></span><span class="mi">REST API <span>◆</span></span><span class="mi">SQL <span>◆</span></span><span class="mi">Docker <span>◆</span></span><span class="mi">Linux <span>◆</span></span><span class="mi">Git <span>◆</span></span><span class="mi">MVC <span>◆</span></span><span class="mi">POO <span>◆</span></span>
+      <span class="mi">React <span>◆</span></span><span class="mi">TypeScript <span>◆</span></span><span class="mi">JavaScript <span>◆</span></span><span class="mi">Java <span>◆</span></span><span class="mi">Symfony <span>◆</span></span><span class="mi">PHP <span>◆</span></span><span class="mi">Node.js <span>◆</span></span><span class="mi">Python <span>◆</span></span><span class="mi">REST API <span>◆</span></span><span class="mi">SQL <span>◆</span></span><span class="mi">Docker <span>◆</span></span><span class="mi">Linux <span>◆</span></span><span class="mi">Git <span>◆</span></span><span class="mi">MVC <span>◆</span></span><span class="mi">POO <span>◆</span></span>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal"><div class="section-num">07</div><div><div class="section-tag">// Me contacter</div><div class="section-title">Travaillons ensemble</div></div></div>
+  <div class="contact-inner reveal">
+    <p style="color:var(--muted);font-size:.93rem;line-height:1.85;max-width:540px">Je suis activement à la recherche d'un <strong style="color:var(--text)">stage de 4 à 6 mois</strong> en développement web React / Fullstack à partir d'<strong style="color:var(--text)">avril 2026</strong>. N'hésitez pas à me contacter pour discuter d'un projet ou d'une opportunité.</p>
+    <a href="mailto:keutchankeunjamtaarnaud@gmail.com" class="contact-email">keutchankeunjamtaarnaud@gmail.com ↗</a>
+    <div class="contact-links">
+      <a href="https://github.com/broalone80-dev" target="_blank" class="contact-link"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+      <a href="tel:+33774870262" class="contact-link"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+33 7 74 87 02 62</a>
+      <a href="https://www.linkedin.com/in/arnaud-keutchankeu-njamta" target="_blank" class="contact-link"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Arnaud Keutchankeu Njamta · broalone80-dev</div>
+  <div class="footer-copy">© 2026 · ECE Paris · Île-de-France</div>
+</footer>
+
+<script>
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+  (function loop(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+  document.querySelectorAll('a,button,.skill-item,.cert-card,.edu-item,.exp-item').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(200,169,110,.7)';cursor.style.opacity='0'});
+    el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(200,169,110,.4)';cursor.style.opacity='1'});
+  });
+  const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70)});},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  const secs=document.querySelectorAll('section[id]'),links=document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',()=>{let cur='';secs.forEach(s=>{if(scrollY>=s.offsetTop-200)cur=s.id});links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))});
+</script>
+</body>
+</html>
